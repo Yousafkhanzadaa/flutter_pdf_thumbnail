@@ -1,4 +1,4 @@
-package com.yourcompany.pdf_thumbnail_plugin
+package com.flutter_pdf_thumbnail.pdf_thumbnail_plugin
 
 import android.graphics.Bitmap
 import android.graphics.pdf.PdfRenderer
