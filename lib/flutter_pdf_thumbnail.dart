@@ -5,9 +5,23 @@
 // platforms in the `pubspec.yaml` at
 // https://flutter.dev/docs/development/packages-and-plugins/developing-packages#plugin-platforms.
 
+import 'package:flutter/services.dart';
+
 import 'flutter_pdf_thumbnail_platform_interface.dart';
 
 class FlutterPdfThumbnail {
+  static const MethodChannel _channel = MethodChannel('pdf_thumbnail_plugin');
+
+  Future<Uint8List?> getThumbnail({required String filePath}) async {
+    try {
+      final result =
+          await _channel.invokeMethod('getThumbnail', {'filePath': filePath});
+      return result;
+    } on PlatformException catch (_) {
+      rethrow;
+    }
+  }
+
   Future<String?> getPlatformVersion() {
     return FlutterPdfThumbnailPlatform.instance.getPlatformVersion();
   }
