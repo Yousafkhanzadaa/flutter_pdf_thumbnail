@@ -1,4 +1,4 @@
-package com.flutter_pdf_thumbnail.pdf_thumbnail_plugin
+package com.khueon.flutter_pdf_thumbnail
 
 import android.graphics.Bitmap
 import android.graphics.pdf.PdfRenderer
@@ -14,7 +14,7 @@ class PdfThumbnailPlugin(private val registrar: Registrar) : MethodCallHandler {
   companion object {
     @JvmStatic
     fun registerWith(registrar: Registrar) {
-      val channel = MethodChannel(registrar.messenger(), "pdf_thumbnail_plugin")
+      val channel = MethodChannel(registrar.messenger(), "flutter_pdf_thumbnail")
       channel.setMethodCallHandler(PdfThumbnailPlugin(registrar))
     }
   }

@@ -4,7 +4,7 @@ import PDFKit
 
 public class PdfThumbnailPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
-    let channel = FlutterMethodChannel(name: "pdf_thumbnail_plugin", binaryMessenger: registrar.messenger())
+    let channel = FlutterMethodChannel(name: "flutter_pdf_thumbnail", binaryMessenger: registrar.messenger())
     let instance = PdfThumbnailPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
   }

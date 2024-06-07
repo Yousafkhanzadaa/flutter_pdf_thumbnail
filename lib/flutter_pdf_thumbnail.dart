@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 import 'flutter_pdf_thumbnail_platform_interface.dart';
 
 class FlutterPdfThumbnail {
-  static const MethodChannel _channel = MethodChannel('pdf_thumbnail_plugin');
+  static const MethodChannel _channel = MethodChannel('flutter_pdf_thumbnail');
 
   Future<Uint8List?> getThumbnail({required String filePath}) async {
     try {
