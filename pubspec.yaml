@@ -1,5 +1,5 @@
 name: flutter_pdf_thumbnail
-description: "A new Flutter plugin project."
+description: "Package to get first page of the pdf as thumbnail image"
 version: 0.0.1
 homepage:
 
