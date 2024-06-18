@@ -5,17 +5,45 @@
 // platforms in the `pubspec.yaml` at
 // https://flutter.dev/docs/development/packages-and-plugins/developing-packages#plugin-platforms.
 
+import 'dart:io';
+
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf_render/pdf_render.dart';
+import 'dart:ui' as ui;
 
 import 'flutter_pdf_thumbnail_platform_interface.dart';
 
 class FlutterPdfThumbnail {
-  static const MethodChannel _channel = MethodChannel('flutter_pdf_thumbnail');
+  static Future<Uint8List> thumbnail(String path) async {
+    final String tempDirPath = (await getTemporaryDirectory()).path;
+    final String fileName = path.hashCode.toString();
+    final File imageFile = File('$tempDirPath/$fileName.png');
+
+    if (await imageFile.exists()) {
+      return await imageFile.readAsBytes();
+    } else {
+      final document = await PdfDocument.openFile(path);
+      final page = await document.getPage(1); // Get the first page
+      final pageImage = await page.render();
+      await pageImage.createImageIfNotAvailable();
+
+      var byteData = await pageImage.imageIfAvailable
+          ?.toByteData(format: ui.ImageByteFormat.png);
+
+      if (byteData != null) {
+        final Uint8List imageData = byteData.buffer.asUint8List();
+        await imageFile.writeAsBytes(imageData);
+        return imageData;
+      } else {
+        throw Exception('Failed to generate thumbnail');
+      }
+    }
+  }
 
   Future<Uint8List?> getThumbnail({required String filePath}) async {
     try {
-      final result =
-          await _channel.invokeMethod('getThumbnail', {'filePath': filePath});
+      final Uint8List result = await thumbnail(filePath);
       return result;
     } on PlatformException catch (_) {
       rethrow;
